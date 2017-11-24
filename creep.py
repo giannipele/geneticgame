@@ -140,7 +140,7 @@ class Creep(Sprite):
 		# We must take the size into account for detecting
 		# collisions with the walls.
 		#
-
+		rect = self.screen.get_rect()
 		bounds_rect = self.screen.get_rect().inflate(
 			-self.rect.width, -self.rect.height)
 
@@ -277,8 +277,6 @@ class Creep(Sprite):
 				angle = _radians_to_angle(radians) % 360
 				print(angle)
 				#print (self.angle)
-
-
 
 
 def _angle_to_direction(angle):

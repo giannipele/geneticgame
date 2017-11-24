@@ -1,11 +1,10 @@
 import pygame
 import sys
-from random import randint, randrange
 from creep import Creep
 
 
 def main():
-	# Game parameters
+	# Game parameters (definitely in the view)
 	SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
 	BG_COLOR = 30, 145, 50
 
@@ -14,7 +13,8 @@ def main():
 				(SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 	clock = pygame.time.Clock()
 
-	# Initialize sprites Group
+
+	# Initialize sprites Group (this part in the model)
 	all_sprites = pygame.sprite.Group()
 	red_team = pygame.sprite.Group()
 	red_shots = pygame.sprite.Group()
@@ -43,6 +43,8 @@ def main():
 
 	# The main game loop
 	#
+	# well, this is the loop of pygame, so it goes into the
+	# view. Should pass the commands through a communicator or slt
 	register_clock = pygame.time.get_ticks()
 	quit = False
 	while not quit:
