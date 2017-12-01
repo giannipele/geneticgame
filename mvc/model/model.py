@@ -31,15 +31,19 @@ class Model:
 		return SCREEN_W, SCREEN_H
 
 	def tick(self):
-		for bullet in self.bullets:
-			print("ciao")
-
-		#self.check_collisions()
+		bullets = []
+		for b in self.bullets:
+			if not b.gone:
+				bullets.append(b)
+		self.bullets = bullets
+		for b in self.bullets:
+			b.move()
 
 	def attack(self):
 		for p in self.players.values():
-			p.attack()
-
+			bullet = p.attack()
+			if bullet is not None:
+				self.bullets.append(bullet)
 
 	def add_player(self):
 		x = rand.randint(30, SCREEN_W - 30)
