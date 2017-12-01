@@ -65,6 +65,9 @@ class Ominus:
 		elif self.pos.y > screen_bounds[3]:
 			self.pos.y = screen_bounds[3]
 
+	def attack(self):
+		self.weapon.shoot()
+
 
 # Convert the angle to the x,y direction
 def _angle_to_direction(angle):

@@ -34,6 +34,10 @@ class Controller:
 				self.model.move_player(RIGHT)
 			elif key[pygame.K_LEFT]:
 				self.model.move_player(LEFT)
-			#elif key[pygame.K_SPACE]:
-			#	self.model.decrease_health()
+			if key[pygame.K_SPACE]:
+				self.model.decrease_health()
+			if key[pygame.K_k]:
+				self.model.attack()
+
 			self.view.tick()
+			self.model.tick()

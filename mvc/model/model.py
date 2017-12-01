@@ -1,4 +1,3 @@
-import math
 from mvc.model.ominus import Ominus
 import random as rand
 
@@ -25,6 +24,22 @@ class Model:
 		self.game_field = (SCREEN_W, SCREEN_H)
 		self.bg_color = [255, 255, 255, 0]
 		self.players = {}
+		self.bullets = []
+
+	@staticmethod
+	def get_screen_size():
+		return SCREEN_W, SCREEN_H
+
+	def tick(self):
+		for bullet in self.bullets:
+			print("ciao")
+
+		#self.check_collisions()
+
+	def attack(self):
+		for p in self.players.values():
+			p.attack()
+
 
 	def add_player(self):
 		x = rand.randint(30, SCREEN_W - 30)
@@ -41,9 +56,6 @@ class Model:
 
 	def get_players(self):
 		return [p for p in self.players.values()]
-
-	def get_screen_size(self):
-		return SCREEN_W, SCREEN_H
 
 	def move_player(self, direction):
 		for p in self.players.values():
