@@ -9,7 +9,7 @@ class Weapon:
 
 	def __init__(self):
 		self.power = 10
-		self.ratio = 1
+		self.ratio = 0.05
 		self.last_shot = time.time()
 
 	def shoot(self, pid, direction, pos):

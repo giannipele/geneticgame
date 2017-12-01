@@ -23,12 +23,15 @@ class View:
 	def tick(self):
 		deads = []
 		self.screen.fill(BG_COLOR)
+		for b in self.model.bullets:
+			self.sprite_group.add(BulletSprite(self.screen, b))
 		for sprite in self.sprite_group:
 			if sprite.check_death():
 				deads.append(sprite)
 			else:
 				sprite.update()
 				sprite.blit()
+
 		for sprite in deads:
 			self.sprite_group.remove(sprite)
 		pygame.display.flip()
@@ -53,9 +56,8 @@ class OminusSprite(pygame.sprite.Sprite):
 		self.angle = self.ominus.angle
 		self.image = pygame.image.load("mvc/view/Elements/RedPlayer/" + str(self.angle) + ".png")
 		self.weapon_sprite.update(self.rect, self.angle)
-		self.update_health_bar()
 
-	def update_health_bar(self):
+	def blit_health_bar(self):
 		start_rad_green = 3 * (math.pi / 4) - _angle_to_radians(self.angle)
 		stop_rad_green = 5 * (math.pi / 4) - ((self.ominus.max_health - self.ominus.health) * math.pi / 100) - _angle_to_radians(
 			self.angle)
@@ -71,6 +73,7 @@ class OminusSprite(pygame.sprite.Sprite):
 
 	def blit(self):
 		self.weapon_sprite.blit()
+		self.blit_health_bar()
 		self.screen.blit(self.image, self.rect)
 
 	def check_death(self):
@@ -100,6 +103,27 @@ class WeaponSprite(pygame.sprite.Sprite):
 
 	def blit(self):
 		self.screen.blit(self.image, self.rect)
+
+
+class BulletSprite(pygame.sprite.Sprite):
+	def __init__(self, screen, bullet):
+		pygame.sprite.Sprite.__init__(self)
+		self.screen = screen
+		self.bullet = bullet
+		self.image = pygame.image.load("bullet.png")
+		self.rect = self.image.get_rect()
+
+	def update(self):
+		self.rect = self.image.get_rect().move(self.bullet.pos.x - self.rect.width / 2, self.bullet.pos.y - self.rect.height /2)
+
+	def blit(self):
+		self.screen.blit(self.image, self.rect)
+
+	def check_death(self):
+		if self.bullet.gone:
+			return True
+		else:
+			return False
 
 
 # Convert angle into radians
