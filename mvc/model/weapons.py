@@ -28,6 +28,7 @@ def _compute_randrange_direction(precision, angle):
     half_prec = int(precision/2)
     max_angle = angle + half_prec
     min_angle = angle - half_prec
+    rand_angle = angle
     if max_angle == min_angle or precision == 1:
         rand_angle = angle
     elif max_angle % 360 < min_angle:
