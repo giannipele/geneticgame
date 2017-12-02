@@ -12,9 +12,9 @@ class Weapon:
 
     def __init__(self):
         self.power = 3
-        self.ratio = 0.07
+        self.ratio = 0.1
         self.last_shot = time.time()
-        self.precision = 8
+        self.precision = 30
 
     def shoot(self, pid, angle, pos):
         now = time.time()
@@ -32,9 +32,9 @@ def _compute_randrange_direction(precision, angle):
     if max_angle == min_angle or precision == 1:
         rand_angle = angle
     elif max_angle % 360 < min_angle:
-        rand_angle = (rand.randint(min_angle, angle + precision)) % 360
+        rand_angle = (rand.uniform(min_angle, angle + precision)) % 360
     elif min_angle < max_angle:
-        rand_angle = rand.randint(min_angle, max_angle)
+        rand_angle = rand.uniform(min_angle, max_angle)
 
     return _angle_to_direction(rand_angle)
 
