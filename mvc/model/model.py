@@ -40,11 +40,12 @@ class Model:
         for b in self.bullets:
             b.move()
 
-    def attack(self):
+    def attack(self, pid):
         for p in self.players.values():
-            bullet = p.attack()
-            if bullet is not None:
-                self.bullets.append(bullet)
+            if p.id == pid - 1:
+                bullet = p.attack()
+                if bullet is not None:
+                    self.bullets.append(bullet)
 
     def add_player(self):
         x = rand.randint(30, SCREEN_W - 30)
@@ -62,16 +63,19 @@ class Model:
     def get_players(self):
         return [p for p in self.players.values()]
 
-    def move_player(self, direction):
+    def move_player(self, pid, direction):
+        # Players IDS of the controller : [1,2,3,4]
         for p in self.players.values():
-            if direction == FORWARD:
-                p.forward()
-            elif direction == BACKWARD:
-                p.backward()
-            elif direction == LEFT:
-                p.left()
-            elif direction == RIGHT:
-                p.right()
+            if p.id == pid - 1:
+                if direction == FORWARD:
+                    p.forward()
+                elif direction == BACKWARD:
+                    p.backward()
+                elif direction == LEFT:
+                    p.left()
+                elif direction == RIGHT:
+                    p.right()
+                break
 
     def decrease_health(self):
         deads = []
