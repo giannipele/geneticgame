@@ -35,4 +35,4 @@ def _compute_randrange_direction(precision, angle):
     elif min_angle < max_angle:
         rand_angle = rand.uniform(min_angle, max_angle)
 
-    return utilities.angle_to_direction(rand_angle)
+    return ggutilities.angle_to_direction(rand_angle)
