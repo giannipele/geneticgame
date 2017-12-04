@@ -1,5 +1,4 @@
-import math
-
+import ggutilities
 from mvc.model.weapons import Weapon
 from vec2d import vec2d
 
@@ -17,7 +16,7 @@ class Ominus:
         self.id = id
         self.pos = vec2d(x, y)
         self.angle = angle
-        self.direction = _angle_to_direction(angle)
+        self.direction = ggutilities.angle_to_direction(angle)
         self.speed = 5
         self.health = 50
         self.max_health = 50
@@ -46,11 +45,11 @@ class Ominus:
     # Right and left change the angle and the direction of the ominus
     def right(self):
         self.angle = (self.angle + STEP_ANGLE) % 360
-        self.direction = _angle_to_direction(self.angle)
+        self.direction = ggutilities.angle_to_direction(self.angle)
 
     def left(self):
         self.angle = (self.angle - STEP_ANGLE) % 360
-        self.direction = _angle_to_direction(self.angle)
+        self.direction = ggutilities.angle_to_direction(self.angle)
 
     def decrease_health(self, damage):
         self.health -= damage
@@ -68,29 +67,6 @@ class Ominus:
 
     def attack(self):
         return self.weapon.shoot(self.id, self.angle, self.pos)
-
-
-# Convert the angle to the x,y direction
-def _angle_to_direction(angle):
-    radians = angle * math.pi / 180
-    vx = math.cos(radians)
-    vy = math.sin(radians)
-    return vec2d((vx, vy)).normalized()
-
-
-# Convert angle into radians
-def _angle_to_radians(angle):
-    return angle * math.pi / 180
-
-
-# Convert radians into angle
-def _radians_to_angle(rad):
-    return rad * 180 / math.pi
-
-
-# Get ditstance between two points
-def _get_distance(p1, p2):
-    return math.sqrt(math.pow(p1[0] - p2[0], 2) + math.pow(p1[1] - p2[1], 2))
 
 
 if __name__ == "__main__":

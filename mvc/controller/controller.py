@@ -20,7 +20,8 @@ class Controller:
         quit = False
 
         while not quit:
-            time_passed = clock.tick(50)
+            # Framerate of the game
+            clock.tick(50)
             if pygame.time.get_ticks() - register_clock > 1000:
                 register_clock = pygame.time.get_ticks()
             key = pygame.key.get_pressed()

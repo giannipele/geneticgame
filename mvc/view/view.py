@@ -1,5 +1,6 @@
 import math
 import os
+import ggutilities
 from glob import glob
 import pygame
 from pygame import Color
@@ -68,15 +69,15 @@ class OminusSprite(pygame.sprite.Sprite):
         self.screen.blit(self.image, self.rect)
 
     def blit_health_bar(self):
-        start_rad_green = 3 * (math.pi / 4) - _angle_to_radians(self.angle)
+        start_rad_green = 3 * (math.pi / 4) - ggutilities.angle_to_radians(self.angle)
         stop_rad_green = 5 * (math.pi / 4) - (
-                (self.ominus.max_health - self.ominus.health) * math.pi / 100) - _angle_to_radians(
+                (self.ominus.max_health - self.ominus.health) * math.pi / 100) - ggutilities.angle_to_radians(
             self.angle)
         pygame.draw.arc(self.screen, Color('green'), (self.pos.x - self.rect.width / 2,
                                                       self.pos.y - self.rect.height / 2, self.rect.width,
                                                       self.rect.height),
                         start_rad_green, stop_rad_green, 4)
-        stop_rad_red = 5 * (math.pi / 4) - _angle_to_radians(self.angle)
+        stop_rad_red = 5 * (math.pi / 4) - ggutilities.angle_to_radians(self.angle)
         pygame.draw.arc(self.screen, Color('red'), (self.pos.x - self.rect.width / 2,
                                                     self.pos.y - self.rect.height / 2, self.rect.width,
                                                     self.rect.height),
@@ -103,8 +104,8 @@ class WeaponSprite(pygame.sprite.Sprite):
     def update(self, rect, angle):
         spear_rect = rect.copy()
         spear_rect.width = spear_rect.height = 50
-        spear_rect.centerx = rect.centerx + 30 * math.cos(_angle_to_radians(angle + 90))
-        spear_rect.centery = rect.centery + 30 * math.sin(_angle_to_radians(angle + 90))
+        spear_rect.centerx = rect.centerx + 30 * math.cos(ggutilities.angle_to_radians(angle + 90))
+        spear_rect.centery = rect.centery + 30 * math.sin(ggutilities.angle_to_radians(angle + 90))
         self.rect = spear_rect
         self.image = self.images[angle]
 
@@ -132,11 +133,6 @@ class BulletSprite(pygame.sprite.Sprite):
             return True
         else:
             return False
-
-
-# Convert angle into radians
-def _angle_to_radians(angle):
-    return angle * math.pi / 180
 
 
 def _load_images(folder):

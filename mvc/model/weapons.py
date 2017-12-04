@@ -1,6 +1,5 @@
 import time
-import math
-from vec2d import vec2d
+import ggutilities
 from mvc.model.bullet import Bullet
 import random as rand
 
@@ -12,9 +11,9 @@ class Weapon:
 
     def __init__(self):
         self.power = 3
-        self.ratio = 0.1
+        self.ratio = 0.5
         self.last_shot = time.time()
-        self.precision = 30
+        self.precision = 16
 
     def shoot(self, pid, angle, pos):
         now = time.time()
@@ -36,12 +35,4 @@ def _compute_randrange_direction(precision, angle):
     elif min_angle < max_angle:
         rand_angle = rand.uniform(min_angle, max_angle)
 
-    return _angle_to_direction(rand_angle)
-
-
-# Convert the angle to the x,y direction
-def _angle_to_direction(angle):
-    radians = angle * math.pi / 180
-    vx = math.cos(radians)
-    vy = math.sin(radians)
-    return vec2d((vx, vy)).normalized()
+    return utilities.angle_to_direction(rand_angle)
