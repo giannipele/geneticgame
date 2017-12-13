@@ -135,3 +135,10 @@ About
 
 # Idea and Pycharm files
 .idea/
+__pycache__/
+blue_player_images/
+red_player_images/
+MVCCreeps/
+spear_images/
+creep.py
+game.py
