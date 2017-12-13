@@ -27,3 +27,18 @@ class Bullet:
         if distance > self.destroy_after:
             self.gone = True
 
+    def check_collision(self, ominus_list):
+        collisions = []
+        for o in ominus_list:
+            if o.id == self.pid:
+                continue
+            if not self.gone:
+                distance = ggutilities.get_distance(self.pos, o.pos)
+                if distance < 30:
+                    o.decrease_health(self.damage)
+                    collisions.append(o)
+                    self.gone = True
+
+        return collisions
+
+

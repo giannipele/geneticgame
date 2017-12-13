@@ -39,6 +39,9 @@ class Model:
         self.bullets = bullets
         for b in self.bullets:
             b.move()
+            collisions = b.check_collision(self.get_players())
+            for c in collisions:
+                print ("Bullet collided with sprite {}".format(c.id))
 
     def attack(self, pid):
         for p in self.players.values():

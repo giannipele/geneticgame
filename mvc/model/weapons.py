@@ -10,11 +10,11 @@ class Weapon:
     """
 
     def __init__(self):
-        self.power = 200
-        self.damage = 10
-        self.ratio = 0.05
+        self.power = 400
+        self.damage = 5
+        self.ratio = 0.2
         self.last_shot = time.time()
-        self.precision = 20
+        self.precision = 10
 
     def shoot(self, pid, angle, pos):
         now = time.time()
