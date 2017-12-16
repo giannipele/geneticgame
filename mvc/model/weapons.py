@@ -11,17 +11,17 @@ class Weapon:
 
     def __init__(self):
         self.power = 400
-        self.damage = 5
-        self.ratio = 0.2
+        self.damage = 3
+        self.ratio = 0.1
         self.last_shot = time.time()
-        self.precision = 10
+        self.precision = 20
 
     def shoot(self, pid, angle, pos):
         now = time.time()
         if now - self.last_shot > self.ratio:
             self.last_shot = now
             direction = _compute_randrange_direction(self.precision, angle)
-            return Bullet(pid, pos.x, pos.y, direction, 20, self.damage, self.power)
+            return Bullet(pid, pos.x, pos.y, direction, self.damage, self.power)
 
 
 def _compute_randrange_direction(precision, angle):

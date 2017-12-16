@@ -53,7 +53,7 @@ class Model:
     def add_player(self):
         x = rand.randint(30, SCREEN_W - 30)
         y = rand.randint(30, SCREEN_H - 30)
-        angle = rand.randrange(0, 360, 9)
+        angle = rand.randrange(0, 360, 4)
         player = Ominus(self.IPID, x, y, angle, screen=(SCREEN_W, SCREEN_H))
         self.IPID += 1
         self.players[player.id] = player
