@@ -90,15 +90,6 @@ class Model:
                     p.right()
                 break
 
-    '''def decrease_health(self):
-        deads = []
-        for p in self.players.values():
-            p.decrease_health(5)
-            if p.health <= 0:
-                deads.append(p.id)
-        for id in deads:
-            self.remove_player(id)'''
-
 
 class Config:
     def __init__(self):
