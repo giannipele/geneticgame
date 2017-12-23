@@ -11,6 +11,8 @@ BACKWARD = 1
 LEFT = 2
 RIGHT = 3
 
+STEP_ANGLE = 9
+
 
 class Model:
     """
@@ -26,6 +28,7 @@ class Model:
         self.bg_color = [255, 255, 255, 0]
         self.players = {}
         self.bullets = []
+        self.config = Config()
 
     @staticmethod
     def get_screen_size():
@@ -43,6 +46,13 @@ class Model:
             for c in collisions:
                 print ("Bullet collided with sprite {}".format(c.id))
 
+        deads = []
+        for p in self.players.values():
+            if p.health <= 0:
+                deads.append(p.id)
+        for id in deads:
+            self.remove_player(id)
+
     def attack(self, pid):
         for p in self.players.values():
             if p.id == pid - 1:
@@ -53,7 +63,7 @@ class Model:
     def add_player(self):
         x = rand.randint(30, SCREEN_W - 30)
         y = rand.randint(30, SCREEN_H - 30)
-        angle = rand.randrange(0, 360, 4)
+        angle = rand.randrange(0, 360, STEP_ANGLE)
         player = Ominus(self.IPID, x, y, angle, screen=(SCREEN_W, SCREEN_H))
         self.IPID += 1
         self.players[player.id] = player
@@ -80,14 +90,43 @@ class Model:
                     p.right()
                 break
 
-    def decrease_health(self):
+    '''def decrease_health(self):
         deads = []
         for p in self.players.values():
             p.decrease_health(5)
             if p.health <= 0:
                 deads.append(p.id)
-        for dead in deads:
-            del self.players[dead]
+        for id in deads:
+            self.remove_player(id)'''
+
+
+class Config:
+    def __init__(self):
+        with open("settings", 'r') as fsett:
+            for l in fsett:
+                l = l.strip()
+                if l.startswith('#'):
+                    continue
+                else:
+                    infos = l.split("=")
+                    if infos[0] == 'STEP_ANGLE':
+                        self.step_angle = int(infos[1])
+                    elif infos[0] == 'WEAPON_POWER':
+                        self.weapon_power = int(infos[1])
+                    elif infos[0] == 'WEAPON_DAMAGE':
+                        self.weapon_damage = int(infos[1])
+                    elif infos[0] == 'WEAPON_RATIO':
+                        self.weapon_ratio = float(infos[1])
+                    elif infos[0] == 'WEAPON_PRECISION':
+                        self.weapon_precision = int(infos[1])
+
+    def print(self):
+        print ("##### Configuration of the game ##### \n"
+               "Step Angle : " + str(self.step_angle) + "\n"
+               "Weapon Power : " + str(self.weapon_power) + "\n"
+               "Weapon Damage : " + str(self.weapon_damage) + "\n"
+               "Weapon Ratio : " + str(self.weapon_ratio) + "\n"
+               "Weapon Precision : " + str(self.weapon_precision) + "\n")
 
 
 if __name__ == "__main__":
