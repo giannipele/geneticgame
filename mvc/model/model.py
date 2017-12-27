@@ -11,7 +11,7 @@ BACKWARD = 1
 LEFT = 2
 RIGHT = 3
 
-STEP_ANGLE = 4
+STEP_ANGLE = 5
 
 
 class Model:
