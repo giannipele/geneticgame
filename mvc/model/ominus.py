@@ -3,7 +3,7 @@ from mvc.model.weapons import Weapon
 from vec2d import vec2d
 
 # Stepsize in degrees of the angle to turn the ominus
-STEP_ANGLE = 5
+STEP_ANGLE = 9
 
 
 class Ominus:
@@ -17,6 +17,7 @@ class Ominus:
         self.pos = vec2d(x, y)
         self.angle = angle
         self.direction = ggutilities.angle_to_direction(angle)
+        self.radius = 32
         self.speed = 5
         self.health = 50
         self.max_health = 50
@@ -55,7 +56,7 @@ class Ominus:
         self.health -= damage
 
     def check_border_collision(self):
-        screen_bounds = (32, self.screen[0] - 32, 32, self.screen[1] - 32)
+        screen_bounds = (32, self.screen[0] - self.radius, self.radius, self.screen[1] - self.radius)
         if self.pos.x < screen_bounds[0]:
             self.pos.x = screen_bounds[0]
         elif self.pos.x > screen_bounds[1]:
@@ -64,6 +65,17 @@ class Ominus:
             self.pos.y = screen_bounds[2]
         elif self.pos.y > screen_bounds[3]:
             self.pos.y = screen_bounds[3]
+
+    def check_collision(self, ominus_list):
+        collisions = []
+        for o in ominus_list:
+            if o.id == self.id:
+                pass
+            distance = ggutilities.get_distance(self.pos, o.pos)
+            if distance <= 64:
+                direction = vec2d(self.pos - o.pos)
+                self.pos.x = self.pos.x + direction[0]
+                self.pos.y = self.pos.y - direction[1]
 
     def attack(self):
         return self.weapon.shoot(self.id, self.angle, self.pos)

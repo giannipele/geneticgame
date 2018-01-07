@@ -1,6 +1,7 @@
 import random as rand
-
+from mvc.model.config import Config
 from mvc.model.ominus import Ominus
+from mvc.model.wall import Wall
 
 # Screen width and height in pixels
 SCREEN_W = 1024
@@ -11,7 +12,7 @@ BACKWARD = 1
 LEFT = 2
 RIGHT = 3
 
-STEP_ANGLE = 5
+STEP_ANGLE = 9
 
 
 class Model:
@@ -28,6 +29,7 @@ class Model:
         self.bg_color = [255, 255, 255, 0]
         self.players = {}
         self.bullets = []
+        self.wall_blocks = []
         self.config = Config()
 
     @staticmethod
@@ -43,8 +45,15 @@ class Model:
         for b in self.bullets:
             b.move()
             collisions = b.check_collision(self.get_players())
-            for c in collisions:
-                print ("Bullet collided with sprite {}".format(c.id))
+
+        '''for o in self.players.values():
+            o.check_collision(self.get_players())'''
+
+        for w in self.wall_blocks:
+            collisions = w.check_collision(self.get_players())
+            #print("Wall {} collided with object {}".format(w.id, [o.id for o in collisions]))
+            '''for c in collisions:
+                print ("Bullet collided with sprite {}".format(c.id))'''
 
         deads = []
         for p in self.players.values():
@@ -52,6 +61,17 @@ class Model:
                 deads.append(p.id)
         for id in deads:
             self.remove_player(id)
+
+    def create_terrain(self):
+        self.wall_blocks = []
+        left_wall = Wall(1, 0, 0, 25, SCREEN_H, 0)
+        right_wall = Wall(3, SCREEN_W - 25, 0, 25, SCREEN_H, 0)
+        top_wall = Wall(0, 25, 0, SCREEN_W - 50, 25, 0)
+        bottom_wall = Wall(2, 25, SCREEN_H - 25, SCREEN_W - 50, 25, 0)
+        self.wall_blocks.append(left_wall)
+        self.wall_blocks.append(right_wall)
+        self.wall_blocks.append(top_wall)
+        self.wall_blocks.append(bottom_wall)
 
     def attack(self, pid):
         for p in self.players.values():
@@ -90,35 +110,8 @@ class Model:
                     p.right()
                 break
 
-
-class Config:
-    def __init__(self):
-        with open("settings", 'r') as fsett:
-            for l in fsett:
-                l = l.strip()
-                if l.startswith('#'):
-                    continue
-                else:
-                    infos = l.split("=")
-                    if infos[0] == 'STEP_ANGLE':
-                        self.step_angle = int(infos[1])
-                    elif infos[0] == 'WEAPON_POWER':
-                        self.weapon_power = int(infos[1])
-                    elif infos[0] == 'WEAPON_DAMAGE':
-                        self.weapon_damage = int(infos[1])
-                    elif infos[0] == 'WEAPON_RATIO':
-                        self.weapon_ratio = float(infos[1])
-                    elif infos[0] == 'WEAPON_PRECISION':
-                        self.weapon_precision = int(infos[1])
-
-    def print(self):
-        print ("##### Configuration of the game ##### \n"
-               "Step Angle : " + str(self.step_angle) + "\n"
-               "Weapon Power : " + str(self.weapon_power) + "\n"
-               "Weapon Damage : " + str(self.weapon_damage) + "\n"
-               "Weapon Ratio : " + str(self.weapon_ratio) + "\n"
-               "Weapon Precision : " + str(self.weapon_precision) + "\n")
-
+    def get_walls(self):
+        return [w for w in self.wall_blocks]
 
 if __name__ == "__main__":
     model = Model()

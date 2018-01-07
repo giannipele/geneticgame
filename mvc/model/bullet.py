@@ -2,7 +2,7 @@ import ggutilities
 
 from vec2d import vec2d
 
-SPEED = 30
+SPEED = 50
 
 
 class Bullet:
