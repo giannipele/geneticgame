@@ -6,7 +6,8 @@ import pygame
 from pygame import Color
 
 VIEW_ROOT_DIR = "mvc/view/"
-BG_COLOR = 30, 145, 50
+BG_COLOR = (30, 145, 50)
+WALL_COLOR = (128, 128, 128)
 PLAYERS_COLORS = ['Red', 'Blue']
 
 
@@ -15,30 +16,40 @@ class View:
         self.model = model
         self.SCREEN_W, self.SCREEN_H = model.get_screen_size()
         self.quit = False
-        self.sprite_group = pygame.sprite.Group()
+        self.agent_group = pygame.sprite.Group()
+        self.terrain_group = pygame.sprite.Group()
 
     def run(self):
         pygame.init()
         self.screen = pygame.display.set_mode(
             (self.SCREEN_W, self.SCREEN_H), 0, 32)
+
         self.ominus_sprites = [OminusSprite(self.screen, o, PLAYERS_COLORS[o.id]) for o in self.model.get_players()]
         for o in self.ominus_sprites:
-            self.sprite_group.add(o)
+            self.agent_group.add(o)
+
+        self.wall_sprites = [WallSprite(self.screen, w) for w in self.model.get_walls()]
+        for w in self.wall_sprites:
+            self.terrain_group.add(w)
 
     def tick(self):
         deads = []
         self.screen.fill(BG_COLOR)
         for b in self.model.bullets:
-            self.sprite_group.add(BulletSprite(self.screen, b))
-        for sprite in self.sprite_group:
+            self.agent_group.add(BulletSprite(self.screen, b))
+        for sprite in self.agent_group:
             if sprite.check_death():
                 deads.append(sprite)
             else:
                 sprite.update()
                 sprite.blit()
 
+        for w in self.terrain_group:
+            w.blit()
+
         for sprite in deads:
-            self.sprite_group.remove(sprite)
+            self.agent_group.remove(sprite)
+
         pygame.display.flip()
 
     def quit(self):
@@ -52,7 +63,7 @@ class OminusSprite(pygame.sprite.Sprite):
         self.ominus = ominus
         self.angle = ominus.angle
         self.pos = ominus.pos
-        self.images = _load_images(VIEW_ROOT_DIR + "Elements/{}PlayerComplete/".format(color))
+        self.images = _load_images(VIEW_ROOT_DIR + "Elements/{}Player/".format(color))
         self.image = self.images[ominus.angle]
         self.rect = self.image.get_rect()
         self.weapon_sprite = WeaponSprite(screen, ominus.weapon, ominus.pos, ominus.angle)
@@ -98,7 +109,7 @@ class WeaponSprite(pygame.sprite.Sprite):
         self.weapon = weapon
         self.angle = angle
         self.pos = pos
-        self.images = _load_images(VIEW_ROOT_DIR + "Elements/SpearComplete/")
+        self.images = _load_images(VIEW_ROOT_DIR + "Elements/Spear/")
         self.image = self.images[angle]
         self.rect = self.image.get_rect()
 
@@ -134,6 +145,17 @@ class BulletSprite(pygame.sprite.Sprite):
             return True
         else:
             return False
+
+
+class WallSprite(pygame.sprite.Sprite):
+    def __init__(self, screen, wall):
+        pygame.sprite.Sprite.__init__(self)
+        self.screen = screen
+        self.wall = wall
+        self.rect = pygame.Rect(wall.pos[0], wall.pos[1], wall.width, wall.height)
+
+    def blit(self):
+        pygame.draw.rect(self.screen, WALL_COLOR, self.rect)
 
 
 def _load_images(folder):
