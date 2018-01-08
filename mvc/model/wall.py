@@ -24,12 +24,16 @@ class Wall:
                     collisions.append(o)
                     if i == 0:
                         o.pos.y = r[1][1] - 32
+                        break
                     elif i == 1:
                         o.pos.x = r[1][0] - 32
+                        break
                     elif i == 2:
                         o.pos.y = self.pos.y + self.height + 32
+                        break
                     elif i == 3:
                         o.pos.x = self.pos.x + self.width + 32
+                        break
                 i += 1
         return collisions
 

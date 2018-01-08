@@ -44,7 +44,8 @@ class Model:
         self.bullets = bullets
         for b in self.bullets:
             b.move()
-            collisions = b.check_collision(self.get_players())
+            b.check_ominus_collision(self.get_players())
+            b.check_wall_collision(self.get_walls())
 
         '''for o in self.players.values():
             o.check_collision(self.get_players())'''
@@ -72,6 +73,19 @@ class Model:
         self.wall_blocks.append(right_wall)
         self.wall_blocks.append(top_wall)
         self.wall_blocks.append(bottom_wall)
+
+        id = 4
+        for i in range(4):
+            x = 25 + (SCREEN_W - 50)/4 * i
+            for j in range(6):
+                y = 25 + (SCREEN_H - 50)/6 * j
+                probability = rand.uniform(0, 100)
+                if probability <= 35:
+                    self.wall_blocks.append(Wall(id, x, y, rand.randint(20, 150), rand.randint(20,180), 0))
+                    id += 1
+        '''for i in range(25, SCREEN_W - 25, (SCREEN_W - 50)/6):
+            for j in range(25, SCREEN_H - 25, (SCREEN_H - 50)/4):
+                grid[i][j] = (i, j)'''
 
     def attack(self, pid):
         for p in self.players.values():

@@ -13,7 +13,7 @@ class Weapon:
         self.power = 400
         self.damage = 3
         self.ratio = 0.1
-        self.precision = 20
+        self.precision = 7
         self.last_shot = time.time()
 
     def shoot(self, pid, angle, pos):

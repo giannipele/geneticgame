@@ -2,7 +2,7 @@ import ggutilities
 
 from vec2d import vec2d
 
-SPEED = 50
+SPEED = 40
 
 
 class Bullet:
@@ -26,7 +26,7 @@ class Bullet:
         if distance > self.destroy_after:
             self.gone = True
 
-    def check_collision(self, ominus_list):
+    def check_ominus_collision(self, ominus_list):
         collisions = []
         for o in ominus_list:
             if o.id == self.pid:
@@ -38,6 +38,20 @@ class Bullet:
                     collisions.append(o)
                     self.gone = True
 
+    def check_wall_collision(self, wall_list):
+        collisions = []
+        for w in wall_list:
+            if not self.gone:
+                res = [ggutilities.intersect(self.pos, 3, (w.pos, (w.pos.x + w.width, w.pos.y))),
+                       ggutilities.intersect(self.pos, 3, (w.pos, (w.pos.x, w.pos.y + w.height))),
+                       ggutilities.intersect(self.pos, 3, (
+                       (w.pos.x, w.pos.y + w.height), (w.pos.x + w.width, w.pos.y + w.height))),
+                       ggutilities.intersect(self.pos, 3, (
+                       (w.pos.x + w.width, w.pos.y), (w.pos.x + w.width, w.pos.y + w.height)))]
+                for r in res:
+                    if r[0]:
+                        collisions.append(w)
+                        self.gone = True
         return collisions
 
 
