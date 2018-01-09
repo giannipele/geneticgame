@@ -51,7 +51,7 @@ class Model:
             o.check_collision(self.get_players())'''
 
         for w in self.wall_blocks:
-            collisions = w.check_collision(self.get_players())
+            w.check_collision(self.get_players())
             #print("Wall {} collided with object {}".format(w.id, [o.id for o in collisions]))
             '''for c in collisions:
                 print ("Bullet collided with sprite {}".format(c.id))'''
@@ -81,7 +81,7 @@ class Model:
                 y = 25 + (SCREEN_H - 50)/6 * j
                 probability = rand.uniform(0, 100)
                 if probability <= 35:
-                    self.wall_blocks.append(Wall(id, x, y, rand.randint(20, 150), rand.randint(20,180), 0))
+                    self.wall_blocks.append(Wall(id, x, y, rand.randint(40, 150), rand.randint(40,180), 0))
                     id += 1
         '''for i in range(25, SCREEN_W - 25, (SCREEN_W - 50)/6):
             for j in range(25, SCREEN_H - 25, (SCREEN_H - 50)/4):

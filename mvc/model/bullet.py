@@ -42,16 +42,17 @@ class Bullet:
         collisions = []
         for w in wall_list:
             if not self.gone:
-                res = [ggutilities.intersect(self.pos, 3, (w.pos, (w.pos.x + w.width, w.pos.y))),
-                       ggutilities.intersect(self.pos, 3, (w.pos, (w.pos.x, w.pos.y + w.height))),
-                       ggutilities.intersect(self.pos, 3, (
+                '''res = [ggutilities.isInside(self.pos, 3, (w.pos, (w.pos.x + w.width, w.pos.y))),
+                       ggutilities.isInside(self.pos, 3, (w.pos, (w.pos.x, w.pos.y + w.height))),
+                       ggutilities.isInside(self.pos, 3, (
                        (w.pos.x, w.pos.y + w.height), (w.pos.x + w.width, w.pos.y + w.height))),
-                       ggutilities.intersect(self.pos, 3, (
+                       ggutilities.isInside(self.pos, 3, (
                        (w.pos.x + w.width, w.pos.y), (w.pos.x + w.width, w.pos.y + w.height)))]
-                for r in res:
-                    if r[0]:
-                        collisions.append(w)
-                        self.gone = True
+                for r in res:'''
+                is_inside = ggutilities.isInside(self.pos, w.pos.x, w.pos.y, w.width, w.height)
+                if is_inside:
+                    collisions.append(w)
+                    self.gone = True
         return collisions
 
 
