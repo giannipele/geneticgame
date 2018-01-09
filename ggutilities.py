@@ -1,6 +1,5 @@
 import math
 from vec2d import vec2d
-import numpy as np
 
 
 # Convert the angle to the x,y direction
