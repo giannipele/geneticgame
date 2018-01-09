@@ -2,7 +2,7 @@ import time
 import ggutilities
 from mvc.model.bullet import Bullet
 import random as rand
-
+import math
 
 class Weapon:
     """
@@ -11,7 +11,7 @@ class Weapon:
 
     def __init__(self):
         self.power = 400
-        self.damage = 3
+        self.damage = 2
         self.ratio = 0.1
         self.precision = 7
         self.last_shot = time.time()
@@ -21,7 +21,9 @@ class Weapon:
         if now - self.last_shot > self.ratio:
             self.last_shot = now
             direction = _compute_randrange_direction(self.precision, angle)
-            return Bullet(pid, pos.x, pos.y, direction, self.damage, self.power)
+            centerx = pos.x + 30 * math.cos(ggutilities.angle_to_radians(angle + 90))
+            centery = pos.y + 30 * math.sin(ggutilities.angle_to_radians(angle + 90))
+            return Bullet(pid, centerx, centery, direction, self.damage, self.power)
 
 
 def _compute_randrange_direction(precision, angle):

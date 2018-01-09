@@ -63,7 +63,7 @@ class OminusSprite(pygame.sprite.Sprite):
         self.ominus = ominus
         self.angle = ominus.angle
         self.pos = ominus.pos
-        self.images = _load_images(VIEW_ROOT_DIR + "Elements/{}Player/".format(color))
+        self.images = _load_images(VIEW_ROOT_DIR + "Elements/{}PlayerComplete/".format(color))
         self.image = self.images[ominus.angle]
         self.rect = self.image.get_rect()
         self.weapon_sprite = WeaponSprite(screen, ominus.weapon, ominus.pos, ominus.angle)
@@ -109,7 +109,7 @@ class WeaponSprite(pygame.sprite.Sprite):
         self.weapon = weapon
         self.angle = angle
         self.pos = pos
-        self.images = _load_images(VIEW_ROOT_DIR + "Elements/Spear/")
+        self.images = _load_images(VIEW_ROOT_DIR + "Elements/SpearComplete/")
         self.image = self.images[angle]
         self.rect = self.image.get_rect()
 
@@ -130,7 +130,7 @@ class BulletSprite(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.screen = screen
         self.bullet = bullet
-        self.image = pygame.image.load(VIEW_ROOT_DIR + "Elements/Bullets/nnewbullet.png")
+        self.image = pygame.image.load(VIEW_ROOT_DIR + "Elements/Bullets/squarebullet.png")
         self.rect = self.image.get_rect()
 
     def update(self):

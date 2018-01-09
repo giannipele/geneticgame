@@ -50,3 +50,8 @@ def intersect(Q, r, segment):
     return True, P1 + t * V
 
 
+def isInside(pos, x, y, w, h):
+    if x <= pos.x <= x + w and y < pos.y < y + h:
+        return True
+    return False
+
