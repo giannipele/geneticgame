@@ -3,7 +3,7 @@ from mvc.model.weapons import Weapon
 from vec2d import vec2d
 
 # Stepsize in degrees of the angle to turn the ominus
-STEP_ANGLE = 4
+STEP_ANGLE = 5
 
 
 class Ominus:
@@ -23,6 +23,7 @@ class Ominus:
         self.max_health = 50
         self.screen = screen
         self.weapon = Weapon()
+        self.sight = Sight(self)
 
     # Print the internal status of the ominus
     def print(self):
@@ -37,20 +38,24 @@ class Ominus:
         displacement = vec2d(self.direction.x * self.speed, self.direction.y * self.speed)
         self.pos += displacement
         self.check_border_collision()
+        self.sight.update()
 
     def backward(self):
         displacement = vec2d(-self.direction.x * self.speed, -self.direction.y * self.speed)
         self.pos += displacement
         self.check_border_collision()
+        self.sight.update()
 
     # Right and left change the angle and the direction of the ominus
     def right(self):
         self.angle = (self.angle + STEP_ANGLE) % 360
         self.direction = ggutilities.angle_to_direction(self.angle)
+        self.sight.update()
 
     def left(self):
         self.angle = (self.angle - STEP_ANGLE) % 360
         self.direction = ggutilities.angle_to_direction(self.angle)
+        self.sight.update()
 
     def decrease_health(self, damage):
         self.health -= damage
@@ -79,6 +84,31 @@ class Ominus:
 
     def attack(self):
         return self.weapon.shoot(self.id, self.angle, self.pos)
+
+
+class Sight:
+    def __init__(self, ominus, front_beams=(14, 140, 350), back_beams=(4, 90, 100)):
+        self.ominus = ominus
+        self.front_beams = front_beams
+        self.back_beams = back_beams
+        self.update()
+
+    def update(self):
+        self.beams = []
+        start_angle = (self.ominus.angle - self.front_beams[1] / 2) % 360
+        step_angle = self.front_beams[1] / self.front_beams[0]
+        self.beams = [(b % 360, self.front_beams[2]) for b in range(int(start_angle), int(start_angle + self.front_beams[1]), int(step_angle))]
+
+        start_angle = (self.ominus.angle + 180 - self.back_beams[1] / 2) % 360
+        step_angle = self.back_beams[1] / self.back_beams[0]
+        self.beams.extend([(b % 360, self.back_beams[2]) for b in range(int(start_angle), int(start_angle + self.back_beams[1]), int(step_angle))])
+        '''for i in range(self.front_beams[0]):
+            self.beams.append(ggutilities.angle_to_direction(start_angle + i * step_angle))
+
+        start_angle = ((self.ominus.angle + 180) - self.back_beams[1] / 2) % 360
+        step_angle = self.back_beams[1] / self.back_beams[0]
+        for i in range(self.back_beams[0]):
+            self.beams.append(ggutilities.angle_to_direction(start_angle + i * step_angle))'''
 
 
 if __name__ == "__main__":

@@ -67,6 +67,7 @@ class OminusSprite(pygame.sprite.Sprite):
         self.image = self.images[ominus.angle]
         self.rect = self.image.get_rect()
         self.weapon_sprite = WeaponSprite(screen, ominus.weapon, ominus.pos, ominus.angle)
+        self.sight = True
 
     def update(self):
         self.rect = self.image.get_rect().move(self.ominus.pos.x - self.rect.width / 2,
@@ -78,6 +79,8 @@ class OminusSprite(pygame.sprite.Sprite):
     def blit(self):
         self.weapon_sprite.blit()
         self.blit_health_bar()
+        if self.sight:
+            self.blit_sight()
         self.screen.blit(self.image, self.rect)
 
     def blit_health_bar(self):
@@ -94,6 +97,12 @@ class OminusSprite(pygame.sprite.Sprite):
                                                     self.pos.y - self.rect.height / 2, self.rect.width,
                                                     self.rect.height),
                         stop_rad_green, stop_rad_red, 4)
+
+    def blit_sight(self):
+        for b in self.ominus.sight.beams:
+            x = int(self.rect.centerx + b[1] * math.cos(ggutilities.angle_to_radians(b[0])))
+            y = int(self.rect.centery + b[1] * math.sin(ggutilities.angle_to_radians(b[0])))
+            pygame.draw.line(self.screen, [255, 128, 12], self.rect.center, (x,y))
 
     def check_death(self):
         if self.ominus.health <= 0:
