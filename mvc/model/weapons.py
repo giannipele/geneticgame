@@ -20,7 +20,7 @@ class Weapon:
         now = time.time()
         if now - self.last_shot > self.ratio:
             self.last_shot = now
-            direction = _compute_randrange_direction(self.precision, angle)
+            direction = _compute_randrange_direction(self.precision, angle - 3)
             centerx = pos.x + 30 * math.cos(ggutilities.angle_to_radians(angle + 90))
             centery = pos.y + 30 * math.sin(ggutilities.angle_to_radians(angle + 90))
             return Bullet(pid, centerx, centery, direction, self.damage, self.power)

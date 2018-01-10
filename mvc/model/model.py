@@ -12,7 +12,7 @@ BACKWARD = 1
 LEFT = 2
 RIGHT = 3
 
-STEP_ANGLE = 9
+STEP_ANGLE = 4
 
 
 class Model:
@@ -37,6 +37,7 @@ class Model:
         return SCREEN_W, SCREEN_H
 
     def tick(self):
+
         bullets = []
         for b in self.bullets:
             if not b.gone:
@@ -47,14 +48,8 @@ class Model:
             b.check_ominus_collision(self.get_players())
             b.check_wall_collision(self.get_walls())
 
-        '''for o in self.players.values():
-            o.check_collision(self.get_players())'''
-
         for w in self.wall_blocks:
             w.check_collision(self.get_players())
-            #print("Wall {} collided with object {}".format(w.id, [o.id for o in collisions]))
-            '''for c in collisions:
-                print ("Bullet collided with sprite {}".format(c.id))'''
 
         deads = []
         for p in self.players.values():
@@ -83,9 +78,6 @@ class Model:
                 if probability <= 35:
                     self.wall_blocks.append(Wall(id, x, y, rand.randint(40, 150), rand.randint(40,180), 0))
                     id += 1
-        '''for i in range(25, SCREEN_W - 25, (SCREEN_W - 50)/6):
-            for j in range(25, SCREEN_H - 25, (SCREEN_H - 50)/4):
-                grid[i][j] = (i, j)'''
 
     def attack(self, pid):
         for p in self.players.values():
@@ -126,6 +118,7 @@ class Model:
 
     def get_walls(self):
         return [w for w in self.wall_blocks]
+
 
 if __name__ == "__main__":
     model = Model()

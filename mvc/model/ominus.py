@@ -3,7 +3,7 @@ from mvc.model.weapons import Weapon
 from vec2d import vec2d
 
 # Stepsize in degrees of the angle to turn the ominus
-STEP_ANGLE = 9
+STEP_ANGLE = 4
 
 
 class Ominus:
