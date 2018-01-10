@@ -7,6 +7,6 @@ Verify if you have these depedencies:
 
 To run the game, use the command
 
-    python[3] game.py
+    python[3] geneticgame.py
 
 
