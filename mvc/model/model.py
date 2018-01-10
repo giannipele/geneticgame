@@ -4,15 +4,15 @@ from mvc.model.ominus import Ominus
 from mvc.model.wall import Wall
 
 # Screen width and height in pixels
-SCREEN_W = 1024
-SCREEN_H = 700
+SCREEN_W = 1600
+SCREEN_H = 900
 
 FORWARD = 0
 BACKWARD = 1
 LEFT = 2
 RIGHT = 3
 
-STEP_ANGLE = 5
+STEP_ANGLE = 4
 
 
 class Model:

@@ -14,10 +14,10 @@ class Wall:
         collisions = []
         for o in ominus_players:
             # res = [TOP, LEFT, BOTTOM, RIGHT]
-            res = [ggutilities.intersect(o.pos, o.radius, (self.pos, (self.pos.x + self.width, self.pos.y))),
-                   ggutilities.intersect(o.pos, o.radius, (self.pos, (self.pos.x, self.pos.y + self.height))),
-                   ggutilities.intersect(o.pos, o.radius, ((self.pos.x, self.pos.y + self.height), (self.pos.x + self.width, self.pos.y + self.height))),
-                   ggutilities.intersect(o.pos, o.radius, ((self.pos.x + self.width, self.pos.y), (self.pos.x + self.width, self.pos.y + self.height)))]
+            res = [ggutilities.line_intersect_circle(o.pos, o.radius, (self.pos, (self.pos.x + self.width, self.pos.y))),
+                   ggutilities.line_intersect_circle(o.pos, o.radius, (self.pos, (self.pos.x, self.pos.y + self.height))),
+                   ggutilities.line_intersect_circle(o.pos, o.radius, ((self.pos.x, self.pos.y + self.height), (self.pos.x + self.width, self.pos.y + self.height))),
+                   ggutilities.line_intersect_circle(o.pos, o.radius, ((self.pos.x + self.width, self.pos.y), (self.pos.x + self.width, self.pos.y + self.height)))]
             i = 0
             for r in res:
                 if r[0]:

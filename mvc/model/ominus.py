@@ -3,7 +3,7 @@ from mvc.model.weapons import Weapon
 from vec2d import vec2d
 
 # Stepsize in degrees of the angle to turn the ominus
-STEP_ANGLE = 5
+STEP_ANGLE = 4
 
 
 class Ominus:
@@ -87,7 +87,9 @@ class Ominus:
 
 
 class Sight:
-    def __init__(self, ominus, front_beams=(14, 140, 350), back_beams=(4, 90, 100)):
+    """ Define the sight of the ominus. The sight is implemented as a set of
+        vectors that collide with objects."""
+    def __init__(self, ominus, front_beams=(25, 140, 600), back_beams=(4, 90, 100)):
         self.ominus = ominus
         self.front_beams = front_beams
         self.back_beams = back_beams
@@ -102,13 +104,6 @@ class Sight:
         start_angle = (self.ominus.angle + 180 - self.back_beams[1] / 2) % 360
         step_angle = self.back_beams[1] / self.back_beams[0]
         self.beams.extend([(b % 360, self.back_beams[2]) for b in range(int(start_angle), int(start_angle + self.back_beams[1]), int(step_angle))])
-        '''for i in range(self.front_beams[0]):
-            self.beams.append(ggutilities.angle_to_direction(start_angle + i * step_angle))
-
-        start_angle = ((self.ominus.angle + 180) - self.back_beams[1] / 2) % 360
-        step_angle = self.back_beams[1] / self.back_beams[0]
-        for i in range(self.back_beams[0]):
-            self.beams.append(ggutilities.angle_to_direction(start_angle + i * step_angle))'''
 
 
 if __name__ == "__main__":

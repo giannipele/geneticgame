@@ -21,8 +21,8 @@ class View:
 
     def run(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(
-            (self.SCREEN_W, self.SCREEN_H), 0, 32)
+        pygame.display.set_caption("Genetic Game")
+        self.screen = pygame.display.set_mode((self.SCREEN_W, self.SCREEN_H), 0, 32)
 
         self.ominus_sprites = [OminusSprite(self.screen, o, PLAYERS_COLORS[o.id]) for o in self.model.get_players()]
         for o in self.ominus_sprites:

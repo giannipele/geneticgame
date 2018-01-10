@@ -7,7 +7,7 @@ SPEED = 40
 
 class Bullet:
     """
-        Element that causes damage to another Ominus.
+        Element that causes damage to another Ominus. Bullet is shot by a weapon.
     """
 
     def __init__(self, pid, x, y, direction, damage, power):
@@ -42,14 +42,7 @@ class Bullet:
         collisions = []
         for w in wall_list:
             if not self.gone:
-                '''res = [ggutilities.isInside(self.pos, 3, (w.pos, (w.pos.x + w.width, w.pos.y))),
-                       ggutilities.isInside(self.pos, 3, (w.pos, (w.pos.x, w.pos.y + w.height))),
-                       ggutilities.isInside(self.pos, 3, (
-                       (w.pos.x, w.pos.y + w.height), (w.pos.x + w.width, w.pos.y + w.height))),
-                       ggutilities.isInside(self.pos, 3, (
-                       (w.pos.x + w.width, w.pos.y), (w.pos.x + w.width, w.pos.y + w.height)))]
-                for r in res:'''
-                is_inside = ggutilities.isInside(self.pos, w.pos.x, w.pos.y, w.width, w.height)
+                is_inside = ggutilities.point_inside_rect(self.pos, w.pos.x, w.pos.y, w.width, w.height)
                 if is_inside:
                     collisions.append(w)
                     self.gone = True

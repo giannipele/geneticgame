@@ -26,7 +26,7 @@ def get_distance(p1, p2):
 
 
 # Return True if the segment passes inside the circle, false otherwise
-def intersect(Q, r, segment):
+def line_intersect_circle(Q, r, segment):
     P1 = vec2d(segment[0])
     V = vec2d(segment[1]) - vec2d(P1)
 
@@ -50,8 +50,8 @@ def intersect(Q, r, segment):
     return True, P1 + t * V
 
 
-def isInside(pos, x, y, w, h):
-    if x <= pos.x <= x + w and y < pos.y < y + h:
+def point_inside_rect(pos, x, y, w, h):
+    if x <= pos.x <= x + w and y <= pos.y <= y + h:
         return True
     return False
 
