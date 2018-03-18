@@ -20,6 +20,10 @@ class View:
         self.terrain_group = pygame.sprite.Group()
 
     def run(self):
+        """
+        Initialize the view with all the components, according to the model.
+        :return:
+        """
         pygame.init()
         pygame.display.set_caption("Genetic Game")
         self.screen = pygame.display.set_mode((self.SCREEN_W, self.SCREEN_H), 0, 32)
@@ -33,6 +37,10 @@ class View:
             self.terrain_group.add(w)
 
     def tick(self):
+        """
+        Called by the controller to refresh the content of the view.
+        :return:
+        """
         deads = []
         self.screen.fill(BG_COLOR)
         for b in self.model.bullets:
@@ -53,6 +61,10 @@ class View:
         pygame.display.flip()
 
     def quit(self):
+        """
+        Close the window and exit.
+        :return:
+        """
         self.quit = True
 
 

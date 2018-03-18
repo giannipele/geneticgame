@@ -4,6 +4,16 @@ from vec2d import vec2d
 
 class Wall:
     def __init__(self, id, x, y, width, height, angle):
+        """
+        Wall object of the game. A wall cannot be crossed by ominus and bullets,
+        and they are squared blocks.
+        :param id:
+        :param x:
+        :param y:
+        :param width:
+        :param height:
+        :param angle:
+        """
         self.id = id
         self.pos = vec2d(x, y)
         self.width = width
@@ -11,6 +21,11 @@ class Wall:
         self.angle = angle
 
     def check_collision(self, ominus_players):
+        """
+        Check the collisions of the ominus with the wall, if it does move the ominus
+        :param ominus_players: list of the ominus in the game
+        :return: list of ominus hitting the wall
+        """
         collisions = []
         for o in ominus_players:
             # res = [TOP, LEFT, BOTTOM, RIGHT]

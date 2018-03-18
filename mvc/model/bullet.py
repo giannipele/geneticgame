@@ -20,6 +20,10 @@ class Bullet:
         self.destroy_after = power
 
     def move(self):
+        """
+        Move forward the bullet.
+        :return:
+        """
         displacement = vec2d(self.direction.x * SPEED, self.direction.y * SPEED)
         self.pos += displacement
         distance = ggutilities.get_distance(self.init_pos, self.pos)
@@ -27,6 +31,12 @@ class Bullet:
             self.gone = True
 
     def check_ominus_collision(self, ominus_list):
+        """
+        Check all the collisions with all the ominus, If it touches and ominus,
+        the health of the ominus is decreased and the bullet is gone.
+        :param ominus_list: List of the ominus of the game
+        :return: List of the ominus the bullet hits
+        """
         collisions = []
         for o in ominus_list:
             if o.id == self.pid:
@@ -37,8 +47,15 @@ class Bullet:
                     o.decrease_health(self.damage)
                     collisions.append(o)
                     self.gone = True
+        return collisions
 
     def check_wall_collision(self, wall_list):
+        """
+        Check the collision with the walls in the game. If it touches a wall,
+        the bullet disappears.
+        :param wall_list: List of the walls in the game, except the borders
+        :return: List of all the walls the bullet hits
+        """
         collisions = []
         for w in wall_list:
             if not self.gone:

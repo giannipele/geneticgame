@@ -42,7 +42,8 @@ class Model:
 
     def tick(self):
         """
-        Set the clocks of the game. All the MVC components update at this clock.
+        Called by the controller when it gives the clock. It updates the state
+        of all the elemtents that need an update.
         :return:
         """
         bullets = []

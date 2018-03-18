@@ -15,6 +15,11 @@ class Controller:
         self.view = view
 
     def run(self):
+        """
+        Maintain the clock of the game and act as listener of the events
+        of the inputs. Clock is spreaded to the model and the view.
+        :return:
+        """
         clock = pygame.time.Clock()
         register_clock = pygame.time.get_ticks()
         quit = False

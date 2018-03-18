@@ -13,6 +13,14 @@ class Ominus:
     """
 
     def __init__(self, id, x, y, angle, screen=None):
+        """
+        Create an ominus object.
+        :param id:  id of the Ominus
+        :param x: x position
+        :param y: y position
+        :param angle: direction angle
+        :param screen: pair of screen_w, screen_h
+        """
         self.id = id
         self.pos = vec2d(x, y)
         self.angle = angle
@@ -27,6 +35,10 @@ class Ominus:
 
     # Print the internal status of the ominus
     def print(self):
+        """
+        Print the status of the ominus.
+        :return:
+        """
         print("Ominus {} status:".format(self.id))
         print("position: ({}, {})".format(self.pos.x, self.pos.y))
         print("angle: {}".format(self.angle))
@@ -35,12 +47,20 @@ class Ominus:
     # Forward and backward compute the next position according to the
     # direction and the speed
     def forward(self):
+        """
+        Move the ominus forward according to its direction.
+        :return:
+        """
         displacement = vec2d(self.direction.x * self.speed, self.direction.y * self.speed)
         self.pos += displacement
         self.check_border_collision()
         self.sight.update()
 
     def backward(self):
+        """
+        Move the ominus in the opposite direction it is pointing at
+        :return:
+        """
         displacement = vec2d(-self.direction.x * self.speed, -self.direction.y * self.speed)
         self.pos += displacement
         self.check_border_collision()
@@ -48,19 +68,36 @@ class Ominus:
 
     # Right and left change the angle and the direction of the ominus
     def right(self):
+        """
+        Rotate the ominus right.
+        :return:
+        """
         self.angle = (self.angle + STEP_ANGLE) % 360
         self.direction = ggutilities.angle_to_direction(self.angle)
         self.sight.update()
 
     def left(self):
+        """
+        Rotate the ominus left.
+        :return:
+        """
         self.angle = (self.angle - STEP_ANGLE) % 360
         self.direction = ggutilities.angle_to_direction(self.angle)
         self.sight.update()
 
     def decrease_health(self, damage):
+        """
+        Decrease the health of the ominus.
+        :param damage: Damage to subtract to the health
+        :return:
+        """
         self.health -= damage
 
     def check_border_collision(self):
+        """
+        Prevent the ominus to exit the borders of the game.
+        :return:
+        """
         screen_bounds = (32, self.screen[0] - self.radius, self.radius, self.screen[1] - self.radius)
         if self.pos.x < screen_bounds[0]:
             self.pos.x = screen_bounds[0]
@@ -72,6 +109,11 @@ class Ominus:
             self.pos.y = screen_bounds[3]
 
     def check_collision(self, ominus_list):
+        """
+        Check the collision with all the other ominus.
+        :param ominus_list: List of the ominus in the game
+        :return: List of ominus id that are colliding
+        """
         collisions = []
         for o in ominus_list:
             if o.id == self.id:
@@ -81,20 +123,26 @@ class Ominus:
                 direction = vec2d(self.pos - o.pos)
                 self.pos.x = self.pos.x + direction[0]
                 self.pos.y = self.pos.y - direction[1]
+                collisions.append(o)
+        return collisions
 
     def check_sight_collision(self):
         collisions = []
-        
-
 
     def attack(self):
+        """
+        Perform an attack with the weapon.
+        :return:
+        """
         return self.weapon.shoot(self.id, self.angle, self.pos)
 
 
 class Sight:
-    """ Define the sight of the ominus. The sight is implemented as a set of
-        vectors that starts at the ominus center and spread around withing a certain angle and
-        collide with objects."""
+    """
+    Define the sight of the ominus. The sight is implemented as a set of
+    vectors that starts at the ominus center and spread around withing a certain angle and
+    collide with objects.
+    """
     def __init__(self, ominus, front_beams=(25, 140, 600), back_beams=(4, 90, 130)):
         self.ominus = ominus
         self.front_beams = front_beams
