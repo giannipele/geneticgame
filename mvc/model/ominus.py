@@ -82,25 +82,35 @@ class Ominus:
                 self.pos.x = self.pos.x + direction[0]
                 self.pos.y = self.pos.y - direction[1]
 
+    def check_sight_collision(self):
+        collisions = []
+        
+
+
     def attack(self):
         return self.weapon.shoot(self.id, self.angle, self.pos)
 
 
 class Sight:
     """ Define the sight of the ominus. The sight is implemented as a set of
-        vectors that collide with objects."""
-    def __init__(self, ominus, front_beams=(25, 140, 600), back_beams=(4, 90, 100)):
+        vectors that starts at the ominus center and spread around withing a certain angle and
+        collide with objects."""
+    def __init__(self, ominus, front_beams=(25, 140, 600), back_beams=(4, 90, 130)):
         self.ominus = ominus
         self.front_beams = front_beams
         self.back_beams = back_beams
         self.update()
 
     def update(self):
+        # beams list contains all the beams of the ominus.
         self.beams = []
+
+        # construct the front beams
         start_angle = (self.ominus.angle - self.front_beams[1] / 2) % 360
         step_angle = self.front_beams[1] / self.front_beams[0]
         self.beams = [(b % 360, self.front_beams[2]) for b in range(int(start_angle), int(start_angle + self.front_beams[1]), int(step_angle))]
 
+        # construct the back beams
         start_angle = (self.ominus.angle + 180 - self.back_beams[1] / 2) % 360
         step_angle = self.back_beams[1] / self.back_beams[0]
         self.beams.extend([(b % 360, self.back_beams[2]) for b in range(int(start_angle), int(start_angle + self.back_beams[1]), int(step_angle))])

@@ -49,7 +49,7 @@ def line_intersect_circle(Q, r, segment):
     t = max(0, min(1, - b / (2 * a)))
     return True, P1 + t * V
 
-
+# Return True if a point is inside a rectangular, False otherwise
 def point_inside_rect(pos, x, y, w, h):
     if x <= pos.x <= x + w and y <= pos.y <= y + h:
         return True

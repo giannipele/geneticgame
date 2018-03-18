@@ -34,10 +34,17 @@ class Model:
 
     @staticmethod
     def get_screen_size():
+        """
+
+        :return: Screen width, screen size
+        """
         return SCREEN_W, SCREEN_H
 
     def tick(self):
-
+        """
+        Set the clocks of the game. All the MVC components update at this clock.
+        :return:
+        """
         bullets = []
         for b in self.bullets:
             if not b.gone:
@@ -51,6 +58,9 @@ class Model:
         for w in self.wall_blocks:
             w.check_collision(self.get_players())
 
+#        for p in self.get_players():
+ #           p.check_sight_collision(self.get_players(), self.get_walls())
+
         deads = []
         for p in self.players.values():
             if p.health <= 0:
@@ -59,6 +69,10 @@ class Model:
             self.remove_player(id)
 
     def create_terrain(self):
+        """
+        Generate a random terrain with walls generated with certain probability.
+        :return:
+        """
         self.wall_blocks = []
         left_wall = Wall(1, 0, 0, 25, SCREEN_H, 0)
         right_wall = Wall(3, SCREEN_W - 25, 0, 25, SCREEN_H, 0)
@@ -71,15 +85,20 @@ class Model:
 
         id = 4
         for i in range(4):
-            x = 25 + (SCREEN_W - 50)/4 * i
+            x = 150 + (SCREEN_W - 50)/4 * i
             for j in range(6):
                 y = 25 + (SCREEN_H - 50)/6 * j
                 probability = rand.uniform(0, 100)
-                if probability <= 35:
+                if probability <= 50:
                     self.wall_blocks.append(Wall(id, x, y, rand.randint(40, 150), rand.randint(40,180), 0))
                     id += 1
 
     def attack(self, pid):
+        """
+        Call the attack() function of the player that is attacking.
+        :param pid: Id of the player passed from the controller.
+        :return:
+        """
         for p in self.players.values():
             if p.id == pid - 1:
                 bullet = p.attack()
@@ -87,6 +106,10 @@ class Model:
                     self.bullets.append(bullet)
 
     def add_player(self):
+        """
+        Add another player to the game.
+        :return:
+        """
         x = rand.randint(30, SCREEN_W - 30)
         y = rand.randint(30, SCREEN_H - 30)
         angle = rand.randrange(0, 360, STEP_ANGLE)
@@ -96,13 +119,28 @@ class Model:
         print("Player with ID {} added.".format(player.id))
 
     def remove_player(self, id):
+        """
+        Remove a player from the game.
+        :param id: Id of the player to remove.
+        :return:
+        """
         del self.players[id]
         print("Removed player with ID {}.".format(id))
 
     def get_players(self):
+        """
+
+        :return: List of players.
+        """
         return [p for p in self.players.values()]
 
     def move_player(self, pid, direction):
+        """
+        Move a player in a certain direction.
+        :param pid: Id of the player
+        :param direction: vector of the direction to move
+        :return:
+        """
         # Players IDS of the controller : [1,2,3,4]
         for p in self.players.values():
             if p.id == pid - 1:
@@ -117,6 +155,10 @@ class Model:
                 break
 
     def get_walls(self):
+        """
+
+        :return: List of the walls inside the game
+        """
         return [w for w in self.wall_blocks]
 
 
